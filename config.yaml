@@ -3,7 +3,7 @@ qq:
   password: ''
   protocol: 3
 sign:
-  url: http://127.0.0.1:8080
+  url: none  # 填 "none" 禁用签名服务，或填写签名服务地址如 http://127.0.0.1:8080
 api:
   http:
     enable: true

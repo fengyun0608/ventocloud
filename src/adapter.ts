@@ -22,13 +22,20 @@ export class VentoCloudAdapter extends EventEmitter {
   } = {}) {
     const qq = Number(uin);
     
+    const signUrl = this.config.sign?.url;
+    const useSign = signUrl && signUrl !== '' && signUrl !== 'none' && !signUrl?.includes('disable');
+    
     const client = createClient({
       platform: options.protocol || 3,
       data_dir: `./data/${qq}`,
-      sign_api_addr: this.config.sign?.url || 'http://127.0.0.1:8080',
+      sign_api_addr: useSign ? signUrl : '',
       ignore_self: true,
       resend: true,
     });
+    
+    if (!useSign) {
+      logger.warn('⚠️ 未配置签名服务，将尝试无签名登录（可能失败）');
+    }
 
     this.bindEvents(client, qq);
     this.clients.set(qq, client);
