@@ -21,6 +21,21 @@ export class WebUIServer {
     this.app.use(express.json());
     this.app.use(express.urlencoded({ extended: true }));
     this.app.use(express.static('public'));
+    
+    // 简单的 session 支持 (基于 cookie)
+    this.app.use((req, res, next) => {
+      (req as any).session = {};
+      const cookie = req.headers.cookie;
+      if (cookie) {
+        const pairs = cookie.split(';').map(p => p.trim().split('='));
+        for (const [key, value] of pairs) {
+          if (key === 'ventocloud_auth') {
+            (req as any).session.authenticated = value === 'true';
+          }
+        }
+      }
+      next();
+    });
   }
 
   private setupRoutes() {
@@ -84,7 +99,7 @@ export class WebUIServer {
     this.app.post('/', (req: Request, res: Response) => {
       const { username, password } = req.body;
       if (username === (webuiConfig.username || 'admin') && password === webuiConfig.password) {
-        (req.session as any).authenticated = true;
+        res.setHeader('Set-Cookie', 'ventocloud_auth=true; Path=/; HttpOnly');
         res.redirect('/');
       } else {
         res.send('登录失败 <a href="/">重试</a>');
@@ -402,7 +417,7 @@ export class WebUIServer {
 
     // 登出
     this.app.get('/logout', (req: Request, res: Response) => {
-      (req.session as any).authenticated = false;
+      res.setHeader('Set-Cookie', 'ventocloud_auth=; Path=/; HttpOnly; Max-Age=0');
       res.redirect('/');
     });
 
