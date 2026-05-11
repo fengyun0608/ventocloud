@@ -1,6 +1,6 @@
 # 🌩️ VentoCloud
 
-> 新一代 OneBot 11 适配器 - 超越 NapCat
+> 新一代 OneBot 11 适配器
 
 ## ✨ 特性
 

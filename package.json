@@ -1,7 +1,7 @@
 {
   "name": "ventocloud",
   "version": "1.0.0",
-  "description": "新一代 OneBot 11 适配器 - 超越 NapCat",
+  "description": "新一代 OneBot 11 适配器",
   "main": "dist/index.js",
   "type": "module",
   "scripts": {
