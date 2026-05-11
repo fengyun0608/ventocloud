@@ -112,12 +112,29 @@ ws://localhost:3001/onebot/v11/ws
 
 ## 🔐 签名服务
 
-需要部署 `unidbg-fetch-qsign` 签名服务：
+需要部署签名服务才能登录 QQ：
+
+### 方法1：SignManager（推荐）
+
+1. 下载 SignManager：https://github.com/MrXiaoM/SignManager/releases
+2. 下载 `SignManager-1.3.3-win-x64.exe` 保存到 `qsign/SignManager.exe`
+3. 双击运行，按提示下载签名服务（推荐 8.9.63 版本）
+4. 生成并运行启动脚本
+5. 确保签名服务在 http://127.0.0.1:8080 运行
+
+### 方法2：Docker
 
 ```bash
-# Docker 部署
-docker run -d -p 8080:8080 -v ./data:/app/data chenos/uni-qsign:latest
+docker run -d -p 8080:8080 chenos/uni-qsign:latest
 ```
+
+### 方法3：手动部署
+
+访问 https://github.com/fuqiuluo/unidbg-fetch-qsign/releases 下载 Windows 版本
+
+---
+
+**注意**：需要先安装 [.NET Core 6.0 运行时](https://dotnet.microsoft.com/zh-cn/download/dotnet/6.0) 才能运行 SignManager
 
 ## 📝 待办
 
