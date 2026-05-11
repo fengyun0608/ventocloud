@@ -1,0 +1,14 @@
+version: '3.8'
+
+services:
+  qsign:
+    image: chenos/uni-qsign:latest
+    container_name: ventocloud-qsign
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./data:/app/data
+    environment:
+      - QUERY_KEY=
+    restart: unless-stopped
+    network_mode: host

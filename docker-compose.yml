@@ -1,0 +1,32 @@
+version: '3.8'
+
+services:
+  ventocloud:
+    image: node:20-alpine
+    container_name: ventocloud
+    working_dir: /app
+    volumes:
+      - ./data:/app/data
+      - ./config.yaml:/app/config.yaml
+      - ./logs:/app/logs
+    ports:
+      - "3000:3000"  # HTTP API
+      - "3001:3001"  # WebSocket
+      - "8080:8080"  # WebUI
+    environment:
+      - NODE_ENV=production
+      - LOG_LEVEL=info
+    command: sh -c "npm install && npm run start"
+    restart: unless-stopped
+
+  qsign:
+    image: chenos/uni-qsign:latest
+    container_name: ventocloud-qsign
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./qsign-data:/app/data
+    environment:
+      - QUERY_KEY=
+    restart: unless-stopped
+    network_mode: host
